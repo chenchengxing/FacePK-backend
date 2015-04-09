@@ -1,0 +1,1 @@
+module.exports = { uri: "mongodb://127.0.0.1/face_score_ranking" };

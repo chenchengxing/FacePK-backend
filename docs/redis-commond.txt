@@ -1,0 +1,32 @@
+连接redis客户端命令：src/redis-cli
+
+1. 随机pk池
+查看random的用户
+smembers randompk
+
+删除某个random用户
+srem randompk ${username}
+
+2. 用户图片存储
+查看图片集合中所有用户
+hkeys "image set"
+
+查看某个用户的图片
+hget "image set" ${username}
+
+删除图片集合中某个用户的图片
+hdel "image set" ${username}
+
+3. 用户最近上传的图片得分
+查看有图片得分的用户
+hkeys "score set"
+
+查看某个用户的图片得分
+hget "score set" ${username}
+
+删除某个用户的图片得分
+hdel "score set" ${username}
+
+4. 某个用户的等待pk列表
+查看
+smembers ${username}:pklist

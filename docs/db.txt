@@ -1,0 +1,14 @@
+1. 创建db
+use face_score_ranking;
+show dbs;
+
+2. 创建collection - users
+db.createCollection('users');
+
+3. 初始化数据库
+直接插入两个互为好友的用户
+db.users.insert({name: "ann", token: "86a59572d5996f71d76e576978026c8552e9c17880fb5881438fe96f5081a9b0", score: 0, friends: ["paper"]});
+db.users.insert({name: "paper", token: "b115e358766f5d3347be9bb1eb7784342b63af0b9a06950fd398e995ea9f4da5", score: 0, friends: ["ann"]});
+更新某个用户的好友
+db.users.update({name:"ann"},{friends:["paper"]]});
+db.users.update({name:"paper"},{friends:["ann"]]});

@@ -1,0 +1,178 @@
+user - 用户
+
+GET /user/list
+功能：用户列表
+参数：无
+返回：
+	{
+		code: 200, 
+		data:  
+			[
+				{
+					name: "ann", 
+					score: 10, 
+					friends: ["paper", "star"]
+				},
+				{
+					name: "paper", 
+					score: -10, 
+					friends: ["ann", "star"]
+				},
+			],
+		msg: ""
+	}
+		
+--------------------------------------
+GET /user/:username
+功能：查看username用户信息
+参数：username - 用户名
+返回：
+	{
+		"code":200,
+		"data":{"username":"ann","friends":["paper","star"]},
+		"msg":""
+	}
+--------------------------------------
+POST /user/addUser
+功能：添加新用户
+参数：
+	username - 用户名
+	token - 设备号
+
+********************************************************************************************
+
+rank - 排行
+
+GET /rank/all
+功能：所有用户颜值排行
+参数：无
+返回：
+	{
+		code: 200, 
+		data:  
+			[
+				{
+					name: "ann", 
+					score: 10
+				},
+				{
+					name: "paper", 
+					score: -10
+				},
+			],
+		msg: ""
+	}
+--------------------------------------
+GET /rank/friends/:username
+功能：获取指定username用户的好友颜值排行
+参数：username - 用户名
+返回：
+	{
+		code: 200, 
+		data:  
+			[
+				{
+					name: "ann", 
+					score: 10
+				},
+				{
+					name: "paper", 
+					score: -10
+				},
+			],
+		msg: ""
+	}
+
+********************************************************************************************
+
+pk - 颜值pk
+
+GET /pk/challengers/:username
+功能：获取向username用户发起pk的挑战者列表
+参数：username - 用户名
+返回：{'code': 200, 'names': ["ann", "paper"]}
+--------------------------------------
+POST /pk/random
+功能：发起随机pk请求
+参数：
+	username - 发起pk的用户名
+	image - base64编码后的图片
+返回：
+	如果没有匹配，返回
+	{
+	    "code": 200,
+	    "data": {
+	        "status": "wait"
+	    },
+	    "msg": "Please wait for other random players"
+	}
+	匹配成功，返回
+	{
+	    "code": 200,
+	    "data": {
+	        "result": "win|lose|draw",
+	        "image": "base64 encode image"
+	    },
+	    "msg": "You are less beautiful! Drop points: 5"
+	}
+
+发起pk等待一段时间后匹配成功，收到推送消息格式：
+{
+	aps = {
+		alert = "";
+		badge = 1;
+	}
+	"push_type" = res;
+	"pk_result" = draw|win|lose;
+}
+--------------------------------------
+POST /pk/target
+功能：发起定向pk请求
+参数：
+	from - 发起pk的用户名
+	to - 被pk的用户名
+	image - base64编码后的图片
+返回：
+	{
+	    "code": 200,
+	    "data": {
+	        "status": "wait"
+	    },
+	    "msg": "Please wait for ann to accept pk~"
+	}
+
+被pk的用户接收到的推送消息格式：
+{
+	aps = {
+		alert = "";
+		badge = 1;
+	}
+	"push_type" = pk;
+	"pk_from" = 发起pk的用户名;
+}
+--------------------------------------
+POST /pk/accept
+功能：接受定向pk请求
+参数：
+	me - 接收pk的用户名，即发送当前请求的用户名
+	username - 接受谁的pk
+	image - base64编码后的图片
+返回：
+	{
+	    "code": 200,
+	    "data": {
+	        "result": "win|lose|draw"
+	    },
+	    "msg": "You are less beautiful! Drop points: 5"
+	}
+
+发起pk的用户收到pk结果的推送消息格式：
+{
+	aps = {
+		alert = "";
+		badge = 1;
+	}
+	"push_type" = res;
+	"pk_result" = draw|win|lose;
+	"pk_from" = username;
+}
