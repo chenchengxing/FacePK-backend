@@ -43,9 +43,12 @@ router.post('/addUser', function(req, res, next) {
   }
 
   User.findOne({name: username}, function(err, user) {
-    if (user && user.token !== token) {
-      res.json(wrapper.wrap(201, "username already exists!"));
-      return;
+    if (user) {
+      if (user.token === token) {
+        res.json(wrapper.wrap(200));
+      } else {
+        res.json(wrapper.wrap(201, "username already exists!")); 
+      }
     } else {
       var newUser = new User({name: username, token: token, score: 0, friends: ["paper"]});
       newUser.save(function (err) {

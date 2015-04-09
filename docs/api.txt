@@ -1,6 +1,6 @@
 user - 用户
 
-GET /user/list
+GET /users/list
 功能：用户列表
 参数：无
 返回：
@@ -23,7 +23,7 @@ GET /user/list
 	}
 		
 --------------------------------------
-GET /user/:username
+GET /users/:username
 功能：查看username用户信息
 参数：username - 用户名
 返回：
@@ -33,7 +33,7 @@ GET /user/:username
 		"msg":""
 	}
 --------------------------------------
-POST /user/addUser
+POST /users/addUser
 功能：添加新用户
 参数：
 	username - 用户名
