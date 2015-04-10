@@ -20,13 +20,13 @@ router.get('/list', function(req, res) {
 // view user's friends
 router.get('/:username', function(req, res) {
   var username = req.params.username;
-  User.findOne({name: username}, 'name friends image', function(err, user) {
+  User.findOne({name: username}, 'name friends', function(err, user) {
   	if (user == null) { 
   	  res.json(wrapper.wrap(201, "user not exists!"));
   	  return;
   	} else {
       User.where('name').in(user.friends).select('name image').exec(function(err, users) {
-        res.json(wrapper.wrap(200, "", {username: user.name, friends: users, image: user.image}));
+        res.json(wrapper.wrap(200, "", {username: user.name, friends: users}));
       });
     }
   })

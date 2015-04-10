@@ -38,7 +38,7 @@ GET /users/:username
 						"image": "base64头像"
 					}
 				],
-			"image": "base64编码的头像"
+			//"image": "base64编码的头像"
 		},
 		"msg":""
 	}
