@@ -73,8 +73,7 @@ POST /users/addFriend
 POST /users/reset
 功能：重置用户，调用后将删除该用户信息，并且将该用户从这个用户好友的friends中删除
 参数：
-	me - 当前用户
-	friend - 好友名称
+	username - 删除用户
 返回：
 成功
 	{
