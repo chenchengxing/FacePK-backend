@@ -29,7 +29,17 @@ GET /users/:username
 返回：
 	{
 		"code":200,
-		"data":{"username":"ann","friends":["paper","star"]},
+		"data":{
+			"username": "ann",
+			"friends":
+				[
+					{
+						"name": "paper",
+						"image": "base64头像"
+					}
+				],
+			"image": "base64编码的头像"
+		},
 		"msg":""
 	}
 --------------------------------------
@@ -176,3 +186,16 @@ POST /pk/accept
 	"pk_result" = draw|win|lose;
 	"pk_from" = username;
 }
+----------------------------------------
+GET /pk/image/:username
+功能：获取pk图片
+参数：username - who的图片
+返回：
+	{
+	    "code": 200,
+	    "data": {
+	        "username": "paper",
+	        "image": "base64 encode image"
+	    },
+	    "msg": "You are less beautiful! Drop points: 5"
+	}
