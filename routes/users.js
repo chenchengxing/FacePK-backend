@@ -20,12 +20,15 @@ router.get('/list', function(req, res) {
 // view user's friends
 router.get('/:username', function(req, res) {
   var username = req.params.username;
-  User.findOne({name: username}, 'name friends', function(err, user) {
+  User.findOne({name: username}, 'name friends image', function(err, user) {
   	if (user == null) { 
   	  res.json(wrapper.wrap(201, "user not exists!"));
   	  return;
-  	};
-    res.json(wrapper.wrap(200, "", {username: user.name, friends: user.friends}));
+  	} else {
+      User.where('name').in(user.friends).select('name image').exec(function(err, users) {
+        res.json(wrapper.wrap(200, "", {username: user.name, friends: users, image: user.image}));
+      });
+    }
   })
 });
 
@@ -50,7 +53,7 @@ router.post('/addUser', function(req, res, next) {
         res.json(wrapper.wrap(201, "username already exists!")); 
       }
     } else {
-      var newUser = new User({name: username, token: token, score: 0, friends: ["paper"]});
+      var newUser = new User({name: username, token: token, score: 0, friends: ["paper"], image: image_mock()});
       newUser.save(function (err) {
         if (err)
         console.log(err);
@@ -60,5 +63,11 @@ router.post('/addUser', function(req, res, next) {
     }
   });
 });
+
+function image_mock() {
+  var r = 1;
+  r = Math.floor(Math.random() * 10) % 5 + 10;
+  return fs.readFileSync(path.join(__dirname, '../test/' + r + '.jpg'), {encoding: 'base64'});
+}
 
 module.exports = router;

@@ -1,48 +1,31 @@
 var express = require('express');
-
-// Mongoose import
+var fs = require('fs');
+var path = require('path');
 var mongoose = require('mongoose');
-
-// Mongoose connection to MongoDB (ted/ted is readonly)
-mongoose.connect('mongodb://ted:ted@ds061797.mongolab.com:61797/theenlighteneddeveloper', function (error) {
+mongoose.connect('mongodb://127.0.0.1/face_score_ranking', function (error) {
     if (error) {
         console.log(error);
     }
 });
+// model
+var User = require("../model/User");
 
-// Mongoose Schema definition
-var Schema = mongoose.Schema;
-var UserSchema = new Schema({
-    first_name: String,
-    last_name: String,
-    email: String
-});
+var buf = fs.readFileSync(path.join(__dirname, '11.jpg'), {encoding: 'base64'});
 
-// Mongoose Model definition
-var User = mongoose.model('users', UserSchema);
-
-// Bootstrap express
-var app = express();
-
-// URLS management
-
-app.get('/', function (req, res) {
-    res.send("<a href='/users'>Show Users</a>");
-});
-
-app.get('/users', function (req, res) {
-    User.find({}, function (err, docs) {
-        res.json(docs);
-    });
-});
-
-app.get('/users/:email', function (req, res) {
-    if (req.params.email) {
-        User.find({ email: req.params.email }, function (err, docs) {
-            res.json(docs);
-        });
+User.update({name: "paper"}, {$set: { image: buf }}, function(err, user) {
+    console.log("done");
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(user.image);
     }
 });
-
-// Start the server
-app.listen(80);
+buf = fs.readFileSync(path.join(__dirname, '12.jpg'), {encoding: 'base64'});
+User.update({name: "ann"}, {$set: { image: buf }}, function(err, user) {
+    console.log("done");
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(user.image);
+    }
+});

@@ -5,7 +5,8 @@ var userSchema = new Schema({
   name:  String,
   token: String,
   score:   Number,
-  friends: [String]
+  friends: [String],
+  image: String
 });
 
 var User = mongoose.model('user', userSchema);
