@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
+var path = require('path');
 var wrapper = require('../util/wrapper');
 
 // model
@@ -53,13 +55,37 @@ router.post('/addUser', function(req, res, next) {
         res.json(wrapper.wrap(201, "username already exists!")); 
       }
     } else {
-      var newUser = new User({name: username, token: token, score: 0, friends: ["paper"], image: image_mock()});
+      var defaultFriend =  "paper";
+      var newUser = new User({name: username, token: token, score: 0, friends: [defaultFriend], image: image_mock()});
       newUser.save(function (err) {
         if (err)
         console.log(err);
       });
-
+      User.update({name: defaultFriend}, {$push: { friends: username }}).exec();
       res.json(wrapper.wrap(200, "", {id: newUser._id, name: newUser.name}));
+    }
+  });
+});
+
+// add friend to each other
+router.post('/addFriend', function(req, res, next) {
+  var me = req.body.me;
+  var friend = req.body.friend;
+  User.update({name: me}, {$push: { friends: friend }}).exec();
+  User.update({name: friend}, {$push: { friends: me }}).exec();
+  res.json(wrapper.wrap(200, "success"));
+});
+
+// reset user
+router.post('/reset', function(req, res, next) {
+  var username = req.body.username;
+  User.findOneAndRemove({name: username}, function(err, user) {
+    if (err) {
+      console.log(err);
+      res.json(wrapper.wrap(201, "reset error"));
+    } else {
+      User.update({name: {$in: user.friends}}, {$pull: {friends: username}}, {multi: true}).exec();
+      res.json(wrapper.wrap(200, "success"));
     }
   });
 });
