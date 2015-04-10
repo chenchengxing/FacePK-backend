@@ -1,3 +1,7 @@
 .DS_Store
 node_modules
+<<<<<<< HEAD
 util/_certs
+=======
+util/_certs/
+>>>>>>> 62aeddd8b273770e68d37c951b315cfa1b6c767e
