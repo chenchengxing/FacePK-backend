@@ -22,7 +22,7 @@ router.post('/random', function(req, res, next) {
   User.findOne({name: username}, function(err, curUser) {
   	if (!curUser) { 
   		res.json(wrapper.wrap(201, "user not exists!"));
-  	  // res.json({code: 201, msg: "user not exists!"});
+
   	} else {
 			var buf = (buf === undefined ? buf_mock() : buf);
 			random(username, buf, res);

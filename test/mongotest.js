@@ -29,3 +29,6 @@ User.update({name: "ann"}, {$set: { image: buf }}, function(err, user) {
         console.log(user.image);
     }
 });
+
+//User.update({name: {$in: ['ann', 'paper']}}, {$pull: {friends: 'star'}}, {multi: true}).exec();
+
