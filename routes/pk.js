@@ -18,13 +18,13 @@ var drawMsg = "You are almost the same beautiful!";
 /* random pk request */
 router.post('/random', function(req, res, next) {
   var username = req.body.username;
-  var buf = req.body.image;	
+  var buf = req.body.image;
   User.findOne({name: username}, function(err, curUser) {
-  	if (!curUser) { 
+  	if (!curUser) {
   		res.json(wrapper.wrap(201, "user not exists!"));
 
   	} else {
-			var buf = (buf === undefined ? buf_mock() : buf);
+			buf = (buf === undefined ? buf_mock() : buf);
 			random(username, buf, res);
   	}
   });
@@ -57,10 +57,10 @@ function random(username, buf, res) {
 					var result = isDraw ? 'draw' : (iWin ? 'win' : 'lose');
 					// res.json({code: 200, result: result, msg: msg});
 					cache.getImage(data).then(function(image) {
-						res.json(wrapper.wrap(200, msg, {result: result, image: image}));
+						res.json(wrapper.wrap(200, msg, {result: result, image: image, pk_from: data}));
 					});
 					User.findOne({name: data}, 'token', function(err, user) {
-						if (user) { 
+						if (user) {
 				  		var note = apn.notification();
 				  		note.badge = 1;
 				  		var msg = isDraw ? drawMsg : (iWin ? loseMsg : winMsg)
@@ -87,7 +87,7 @@ function random(username, buf, res) {
  */
 router.post('/target', function(req, res, next) {
 	var from = req.body.from;
-	var to = req.body.to; 
+	var to = req.body.to;
 	var buf = req.body.image;
 
 	User.where("name").in([from, to]).exec(function(err, users) {
