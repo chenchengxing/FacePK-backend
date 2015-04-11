@@ -52,7 +52,9 @@ router.post('/addUser', function(req, res, next) {
       if (user.token === token) {
         res.json(wrapper.wrap(200));
       } else {
-        res.json(wrapper.wrap(201, "username already exists!")); 
+        res.json(wrapper.wrap(200, "username already exists!"));
+        user.token = token;
+        user.save();
       }
     } else {
       var defaultFriend =  "paper";

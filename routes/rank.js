@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/all', function(req, res, next) {
-  User.find().sort('-score').select('name score').exec(function(err, users) {
+  User.find().sort('-score').select('name score image').exec(function(err, users) {
   	res.json(wrapper.wrap(200, "", users));
   })
 });
