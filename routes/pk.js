@@ -94,7 +94,7 @@ router.post('/target', function(req, res, next) {
 		if (users.length < 2) {
 			res.json(wrapper.wrap(201, "user not exist"));
 		} else {
-			var buf = (buf === undefined ? buf_mock() : buf);
+			buf = (buf === undefined ? buf_mock() : buf);
 			face.calBeauty(buf).then(function(beauty) {
 				// record score of pk starter
 				cache.setScore(from, beauty);
@@ -136,7 +136,7 @@ router.post('/accept', function(req, res, next) {
 		if (users.length < 2) {
 			res.json(wrapper.wrap(201, "user not exist"));
 		} else {
-			var buf = (buf === undefined ? buf_mock() : buf);
+			buf = (buf === undefined ? buf_mock() : buf);
 			face.calBeauty(buf).then(function(beauty) {
 				var iWin = true;
 				var isDraw = false;
